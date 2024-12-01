@@ -1,1 +1,83 @@
-Put new proposals here via a pull request
+import requests
+
+# GitHub Configuration
+GITHUB_API_URL = "https://api.github.com/repos/sora-xor/rfps/issues"
+GITHUB_TOKEN = "your_github_personal_access_token"  # Replace with your token
+REPO_OWNER = "sora-xor"
+REPO_NAME = "rfps"
+
+# RFP Details
+TITLE = "RFP Submission: [Your Proposal Title Here]"
+BODY = """
+# RFP Submission: [Your Proposal Title Here]
+
+## Overview
+Provide a brief description of your proposal and its relevance to the SORA ecosystem.
+
+- **Category**: DeFi, Governance, Infrastructure
+- **Expected Outcomes**: Improved scalability, enhanced user experience
+
+---
+
+## Problem Statement
+Clearly define the problem or opportunity your proposal aims to address. 
+
+- **Current Challenges**: Explain the challenges in the current system or process.
+- **Impact**: How does this issue affect users or the ecosystem?
+
+---
+
+## Proposed Solution
+Describe your solution in detail.
+
+- **Approach**: Explain your methodology or technical approach.
+- **Benefits**: Highlight the advantages of your solution.
+- **Requirements**: List any specific tools, resources, or assistance needed.
+
+---
+
+## Milestones and Deliverables
+| Milestone | Deliverable | Timeline | Budget |
+|-----------|-------------|----------|--------|
+| 1 | [Description of milestone] | 1 month | $5,000 |
+| 2 | [Description of milestone] | 2 months | $10,000 |
+
+---
+
+## Team Information
+- **Team Name**: [Your Team Name]
+- **Expertise**: [Your Skills and Experience]
+- **Past Work**: [Links to Previous Work]
+
+---
+
+## Additional Information
+- **Risks and Challenges**: Highlight potential risks and how they will be mitigated.
+- **Dependencies**: List any dependencies for the project.
+
+---
+
+### Contact Information
+- **Email**: your-email@example.com
+- **GitHub Profile**: https://github.com/your-profile
+"""
+
+# Submit Issue
+headers = {
+    "Authorization": f"token {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github.v3+json",
+}
+
+data = {
+    "title": TITLE,
+    "body": BODY,
+}
+
+response = requests.post(GITHUB_API_URL, headers=headers, json=data)
+
+if response.status_code == 201:
+    print("RFP submitted successfully!")
+    print(f"View it here: {response.json().get('html_url')}")
+else:
+    print(f"Failed to submit RFP: {response.status_code}")
+    print(response.json())
